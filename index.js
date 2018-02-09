@@ -32,9 +32,8 @@ app.get('/api/persons', (req, res) => {
 })
 
 app.get('/api/persons/:id', (req,res) => {
-    const id = Number(req.params.id)
     Person
-    .findById(id)
+    .findById(req.params.id)
     .then(person => {
         res.json(Person.Format(person))
     })
