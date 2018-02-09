@@ -61,6 +61,9 @@ app.post('/api/persons', (req, res) => {
     Person.Format(person)
     person
     .save()
+    .then(savedPerson => {
+        res.json(savedPerson)
+    })
     .catch(error => {
         console.log(error)
     })
