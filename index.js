@@ -52,16 +52,18 @@ app.post('/api/persons', (req, res) => {
     if (body.number === undefined) {
         return res.status(400).json({error: 'Numero puuttuu!'})
     }
-    if (numbers.find(number => number.name.toLowerCase() == body.name.toLowerCase()) != undefined) {
-        return res.status(400).json({error: 'Nimi on jo listalla!'})
-    }
-    const newNumber = {
-        name: body.name,
-        number: body.number,
-        id: generateId()
-    }
-    numbers = numbers.concat(newNumber)
-    res.json(newNumber)
+
+    const person = new Person ({
+            name: body.name,
+            number: body.number
+        }
+    )
+    Person.Format(person)
+    person
+    .save()
+    .catch(error => {
+        console.log(error)
+    })
 })
 
 app.delete('/api/persons/:id', (req,res) => {
