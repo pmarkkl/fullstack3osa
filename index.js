@@ -33,14 +33,15 @@ app.get('/api/persons', (req, res) => {
 
 app.get('/api/persons/:id', (req,res) => {
     const id = Number(req.params.id)
-    const number = numbers.find(number => number.id === id)
-    console.log(number)
-    if (number) {
-        res.json(number)
-    } else {
-        res.json({error: '404 not found'})
+    Person
+    .findById(id)
+    .then(person => {
+        res.json(Person.Format(person))
+    })
+    .catch(error => {
+        res.json({error: 'not found'})
         res.status(404).end()
-    }
+    })
 })
 
 app.post('/api/persons', (req, res) => {
@@ -58,11 +59,10 @@ app.post('/api/persons', (req, res) => {
             number: body.number
         }
     )
-    Person.Format(person)
     person
     .save()
     .then(savedPerson => {
-        res.json(savedPerson)
+        res.json(Person.Format(savedPerson))
     })
     .catch(error => {
         console.log(error)
