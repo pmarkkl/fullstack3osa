@@ -72,10 +72,15 @@ app.post('/api/persons', (req, res) => {
     })
 })
 
-app.delete('/api/persons/:id', (req,res) => {
-    const id = Number(req.params.id)
-    numbers = numbers.filter(number => number.id !== id)
-    res.status(204).end()
+app.delete('/api/persons/:id', (req,res) => {  
+    Person
+    .findByIdAndRemove(req.params.id)
+    .then(result => {
+        res.status(204).end() 
+    })
+    .catch(error => {
+        res.status(400).send({ error: 'malformatted id' })
+    })
 })
 
 app.get('/info', (req, res) => {
