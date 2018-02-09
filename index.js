@@ -16,19 +16,18 @@ app.use(bodyParser.json())
 app.use(morgan('tiny'))
 app.use(cors())
 
-const Person = mongoose.model('Person', {
+const personSchema = new mongoose.Schema({
     name: String,
     number: String
 })
 
-Person.schema.format = function(person) {
-    return {
-        name: person.name,
-        number: person.number,
-        id: person._id
-    }    
-}
+const Person = mongoose.model('Person', personSchema)
 
+const generateId = () => {
+    min = Math.ceil(1000);
+    max = Math.floor(100000000);
+    return Math.floor(Math.random() * (max - min)) + min;
+}
 
 const formatPerson = (person) => {
     return {
@@ -38,14 +37,6 @@ const formatPerson = (person) => {
     }
 }
 
-const generateId = () => {
-    min = Math.ceil(1000);
-    max = Math.floor(100000000);
-    return Math.floor(Math.random() * (max - min)) + min;
-}
-
-
-
 app.get('/', (req,res) => {
     res.send('<h1>Jee</h1>')
 })
@@ -54,7 +45,7 @@ app.get('/api/persons', (req, res) => {
     Person
     .find({})
     .then(numbers => {
-        res.json(numbers.map(Person.format)) 
+        res.json(numbers.map(formatPerson)) 
     })
 })
 
