@@ -1,6 +1,5 @@
 import { Schema } from 'mongoose';
 
-
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -8,6 +7,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const url = 'mongodb://puhuri:Merisuol44@ds229448.mlab.com:29448/fstack18'
+const http = require('http')
 
 mongoose.connect(url)
 
@@ -15,6 +15,8 @@ app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
 app.use(cors())
+
+
 
 const personSchema = new mongoose.Schema({
     name: String,
