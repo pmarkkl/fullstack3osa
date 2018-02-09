@@ -1,3 +1,5 @@
+import { Schema } from 'mongoose';
+
 
 const express = require('express')
 const app = express()
@@ -18,6 +20,15 @@ const Person = mongoose.model('Person', {
     name: String,
     number: String
 })
+
+Person.schema.format = (person) => {
+    return {
+        name: person.name,
+        number: person.number,
+        id: person._id
+    }    
+}
+
 
 const formatPerson = (person) => {
     return {
@@ -43,7 +54,7 @@ app.get('/api/persons', (req, res) => {
     Person
     .find({})
     .then(numbers => {
-        res.json(numbers.map(formatPerson)) 
+        res.json(numbers.map(Person.format)) 
     })
 })
 
