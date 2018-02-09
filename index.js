@@ -54,9 +54,6 @@ app.post('/api/persons', (req, res) => {
     Person
     .find({name: body.name})
     .then(response => {
-        return response
-    })
-    .then(response => {
         if (response) {
             return res.status(403).json({error: 'Nimi on jo puhelinluettelossa!'})
         }
