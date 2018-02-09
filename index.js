@@ -4,25 +4,8 @@ const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
-const mongoose = require('mongoose')
-const url = 'mongodb://puhuri:Merisuol44@ds229448.mlab.com:29448/fstack18'
 
-mongoose.connect(url)
-
-const personSchema = new mongoose.Schema({
-    name: String,
-    number: String
-  })
-
-personSchema.statics.Format = function(person){
-    return {
-        name: person.name,
-        number: person.number,
-        id: person._id
-    }    
-}
-
-const Person = mongoose.model('Person', personSchema)
+const Person = require('./models/person')
 
 app.use(express.static('build'))
 app.use(bodyParser.json())
@@ -35,14 +18,6 @@ const generateId = () => {
     min = Math.ceil(1000);
     max = Math.floor(100000000);
     return Math.floor(Math.random() * (max - min)) + min;
-}
-
-const formatPerson = (person) => {
-    return person = {
-        name: person.name,
-        number: person.number,
-        id: person._id
-    }
 }
 
 app.get('/', (req,res) => {
