@@ -35,7 +35,7 @@ app.get('/api/persons', (req, res) => {
     Person
     .find({})
     .then(persons => {
-        res.json(numbers)
+        res.json(persons)
     })
 })
 
