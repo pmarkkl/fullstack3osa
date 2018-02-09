@@ -38,7 +38,7 @@ app.get('/api/persons/:id', (req,res) => {
         res.json(Person.Format(person))
     })
     .catch(error => {
-        res.json({error: 'not found'})
+        console.log(error)
         res.status(404).end()
     })
 })
