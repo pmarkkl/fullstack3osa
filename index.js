@@ -29,6 +29,14 @@ const generateId = () => {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
+const formatPerson = (person) => {
+    return {
+        name: person.name,
+        number: person.number,
+        id: person._id
+    }
+}
+
 app.get('/', (req,res) => {
     res.send('<h1>Jee</h1>')
 })
@@ -37,7 +45,7 @@ app.get('/api/persons', (req, res) => {
     Person
     .find({})
     .then(persons => {
-        res.json(persons)
+        res.json(persons.map(formatPerson))
     })
 })
 
