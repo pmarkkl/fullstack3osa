@@ -62,6 +62,7 @@ app.get('/api/persons/:id', (req,res) => {
     if (number) {
         res.json(number)
     } else {
+        res.json({error: '404 not found'})
         res.status(404).end()
     }
 })
