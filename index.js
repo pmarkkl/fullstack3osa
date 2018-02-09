@@ -79,7 +79,7 @@ app.put('/api/persons/:id', (req, res) => {
         number: body.number
     }
     Person
-    .findOneAndUpdate(req.params.id, person, {new: true})
+    .findByIdAndUpdate(req.params.id, person, {new: true})
     .then(updatedPerson => {
         res.json(Person.Format(updatedPerson))
     })
