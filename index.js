@@ -50,6 +50,18 @@ app.get('/api/persons/:id', (req,res) => {
 app.post('/api/persons', (req, res) => {
     console.log(req.body)
     const body = req.body
+    
+    Person
+    .find({name: body.name})
+    .then(response => {
+        return response
+    })
+    .then(response => {
+        if (response) {
+            return res.status(403).json({error: 'Nimi on jo puhelinluettelossa!'})
+        }
+    })
+    
     if (body.name === undefined) {
         return res.status(400).json({error: 'Nimi puuttuu!'})
     }
@@ -79,7 +91,7 @@ app.put('/api/persons/:id', (req, res) => {
         number: body.number
     }
     Person
-    .findByIdAndUpdate(req.params.id, person, {new: true})
+    .findOneAndUpdate(req.params.id, person, {new: true})
     .then(updatedPerson => {
         res.json(Person.Format(updatedPerson))
     })
