@@ -50,15 +50,7 @@ app.get('/api/persons/:id', (req,res) => {
 app.post('/api/persons', (req, res) => {
     console.log(req.body)
     const body = req.body
-    
-    Person
-    .find({name: body.name})
-    .then(response => {
-        if (response) {
-            return res.status(403).json({error: 'Nimi on jo puhelinluettelossa!'})
-        }
-    })
-    
+
     if (body.name === undefined) {
         return res.status(400).json({error: 'Nimi puuttuu!'})
     }
