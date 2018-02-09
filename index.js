@@ -38,7 +38,7 @@ const generateId = () => {
 }
 
 const formatPerson = (person) => {
-    return {
+    return person = {
         name: person.name,
         number: person.number,
         id: person._id
