@@ -9,21 +9,31 @@ const url = 'mongodb://puhuri:Merisuol44@ds229448.mlab.com:29448/fstack18'
 
 mongoose.connect(url)
 
+app.use(express.static('build'))
+app.use(bodyParser.json())
+app.use(morgan('tiny'))
+app.use(cors())
+
 const Person = mongoose.model('Person', {
     name: String,
     number: String
 })
 
-app.use(express.static('build'))
-app.use(bodyParser.json())
-app.use(morgan('tiny'))
-app.use(cors())
+const formatPerson = (person) => {
+    return {
+        name: person.name,
+        number: person.number,
+        id: person._id
+    }
+}
 
 const generateId = () => {
     min = Math.ceil(1000);
     max = Math.floor(100000000);
     return Math.floor(Math.random() * (max - min)) + min;
 }
+
+
 
 app.get('/', (req,res) => {
     res.send('<h1>Jee</h1>')
@@ -33,7 +43,7 @@ app.get('/api/persons', (req, res) => {
     Person
     .find({})
     .then(numbers => {
-        res.json(numbers) 
+        res.json(numbers.map(formatPerson)) 
     })
 })
 
