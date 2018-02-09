@@ -14,8 +14,6 @@ const personSchema = new mongoose.Schema({
     number: String
   })
 
-const Person = mongoose.model('Person', personSchema)
-
 personSchema.statics.Format = function(person){
     return {
         name: person.name,
@@ -23,6 +21,8 @@ personSchema.statics.Format = function(person){
         id: person._id
     }    
 }
+
+const Person = mongoose.model('Person', personSchema)
 
 app.use(express.static('build'))
 app.use(bodyParser.json())
