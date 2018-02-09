@@ -4,6 +4,15 @@ const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
+const mongoose = require('mongoose')
+const url = 'mongodb://puhuri:Merisuol44@ds229448.mlab.com:29448/fstack18'
+
+mongoose.connect(url)
+
+const Person = mongoose.model('Person', {
+    name: String,
+    number: String
+})
 
 app.use(express.static('build'))
 app.use(bodyParser.json())
@@ -16,43 +25,16 @@ const generateId = () => {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-let numbers = [
-    {
-        name: "Salama Härri",
-        number: "041-328911",
-        id: 1
-    },
-    {
-        name: "MeikänNick PepsiMax",
-        number: "049-1321111",
-        id: 2
-    },
-    {
-        name: "Hannu Kailajärvi",
-        number: "040-1239966",
-        id: 3
-    },
-    {
-        name: "Kova Koodattu",
-        number: "066-3294411",
-        id: 4
-    },
-    {
-        name: "Pois. T Ettava",
-        number: "0600-123123",
-        id: 5
-    }
-
-]
-
-const http = require ('http')
-
 app.get('/', (req,res) => {
     res.send('<h1>Jee</h1>')
 })
 
 app.get('/api/persons', (req, res) => {
-    res.json(numbers)
+    Person
+    .find({})
+    .then(numbers => {
+        res.json(numbers) 
+    })
 })
 
 app.get('/api/persons/:id', (req,res) => {
