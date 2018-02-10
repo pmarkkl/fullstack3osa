@@ -48,29 +48,35 @@ app.get('/api/persons/:id', (req,res) => {
 })
 
 app.post('/api/persons', (req, res) => {
-    console.log(req.body)
     const body = req.body
-
-    if (body.name === undefined) {
-        return res.status(400).json({error: 'Nimi puuttuu!'})
-    }
-    if (body.number === undefined) {
-        return res.status(400).json({error: 'Numero puuttuu!'})
-    }
-
-    const person = new Person ({
-            name: body.name,
-            number: body.number
-        }
-    )
-    person
-    .save()
-    .then(savedPerson => {
-        res.json(Person.Format(savedPerson))
-    })
-    .catch(error => {
-        console.log(error)
-    })
+    Person
+        .find({name: body.name})
+        .then(result => {
+            if (Object.keys(result).length === 0) {
+                if (body.number === undefined || body.number === null || body.number === '') {
+                    return res.status(400).json({error: 'Nimi puuttuu!'})
+                }
+                if (body.name === undefined || body.name === null || body.name === '') {
+                    return res.status(400).json({error: 'Numero puuttuu!'})
+                }
+            
+                const person = new Person ({
+                        name: body.name,
+                        number: body.number
+                    }
+                )
+                person
+                .save()
+                .then(savedPerson => {
+                    res.json(Person.Format(savedPerson))
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            } else {
+                return res.status(403).json({error: 'Nimi on jo luettelossa'})
+            }
+        })
 })
 
 app.put('/api/persons/:id', (req, res) => {
@@ -80,7 +86,7 @@ app.put('/api/persons/:id', (req, res) => {
         number: body.number
     }
     Person
-    .findOneAndUpdate(req.params.id, person, {new: true})
+    .findByIdAndUpdate(req.params.id, person, {new: true})
     .then(updatedPerson => {
         res.json(Person.Format(updatedPerson))
     })
