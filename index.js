@@ -1,4 +1,3 @@
-
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -10,14 +9,6 @@ app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
 app.use(cors())
-
-const http = require ('http')
-
-const generateId = () => {
-    min = Math.ceil(1000);
-    max = Math.floor(100000000);
-    return Math.floor(Math.random() * (max - min)) + min;
-}
 
 app.get('/', (req,res) => {
     res.send('<h1>Jee</h1>')
@@ -74,6 +65,7 @@ app.post('/api/persons', (req, res) => {
                     console.log(error)
                 })
             } else {
+                console.log(result)
                 return res.status(403).json({error: 'Nimi on jo luettelossa'})
             }
         })
@@ -92,7 +84,7 @@ app.put('/api/persons/:id', (req, res) => {
     })
     .catch(error => {
         console.log(error)
-        response.status(400).send({error: 'malformatted id'})
+        res.status(400).send({ error: 'malformatted id' })
     })
 })
 
@@ -103,13 +95,14 @@ app.delete('/api/persons/:id', (req,res) => {
         res.status(204).end() 
     })
     .catch(error => {
-        res.status(400).send({error: 'malformatted id'})
+        res.status(400).send({ error: 'malformatted id' })
     })
 })
 
+/*
 app.get('/info', (req, res) => {
     res.send(`<p>puhelinluettelossa ${numbers.length} henkilön tiedot</p><p>${Date()}</p>`)
-})
+})*/
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
