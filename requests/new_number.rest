@@ -1,7 +1,7 @@
 POST https://fullstck18.herokuapp.com/api/persons
-Content-Type: application/json
+content-type: application/json
 
 {
-    "name": "Jami Koivukylä",
-    "number": "040-9090223"
+    "name": "Mr. mAGICx",
+    "number": "054393403"
 } 

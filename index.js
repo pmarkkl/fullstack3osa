@@ -41,14 +41,14 @@ app.get('/api/persons/:id', (req,res) => {
 app.post('/api/persons', (req, res) => {
     const body = req.body
     Person
-        .find({name: body.name})
+        .find({ name: body.name })
         .then(result => {
             if (Object.keys(result).length === 0) {
                 if (body.number === undefined || body.number === null || body.number === '') {
-                    return res.status(400).json({error: 'Nimi puuttuu!'})
+                    return res.status(400).json({ error: 'Nimi puuttuu!' })
                 }
                 if (body.name === undefined || body.name === null || body.name === '') {
-                    return res.status(400).json({error: 'Numero puuttuu!'})
+                    return res.status(400).json({ error: 'Numero puuttuu!' })
                 }
             
                 const person = new Person ({
@@ -66,7 +66,7 @@ app.post('/api/persons', (req, res) => {
                 })
             } else {
                 console.log(result)
-                return res.status(403).json({error: 'Nimi on jo luettelossa'})
+                return res.status(403).json({ error: 'Nimi on jo luettelossa' })
             }
         })
 })
@@ -78,7 +78,7 @@ app.put('/api/persons/:id', (req, res) => {
         number: body.number
     }
     Person
-    .findByIdAndUpdate(req.params.id, person, {new: true})
+    .findByIdAndUpdate(req.params.id, person, { new: true })
     .then(updatedPerson => {
         res.json(Person.Format(updatedPerson))
     })
